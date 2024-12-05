@@ -22,4 +22,7 @@
     #e7e7e7 0.01%,
     #1a1a1a 100%);
   --inline-size: clamp(371px, 100%, 696px);
+  --text-color: var(--bg-color);
+  --heart-color: #FF0000;
+  --contour-color: #000;
 }

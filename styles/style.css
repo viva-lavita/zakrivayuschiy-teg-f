@@ -46,7 +46,7 @@
   font-size: clamp(3.0625rem, 2.7104rem + 1.5023vw, 4.0625rem);
   text-align: center;
   text-transform: uppercase;
-  padding-block: clamp(120px, 100%, 158px) 43px;
+  padding-block: clamp(120px, 35%, 158px) clamp(31px, 7%, 43px);
 }
 
 .header__title {
@@ -66,13 +66,35 @@
   padding-inline-start: 18px;
 }
 
-.button {
+.btn {
   border: none;
   background-color: transparent;
   font-family: 'PressStart2P', fantasy;
   font-size: 14px;
-  text-transform: uppercase;
   cursor: pointer;
+}
+
+.btn_animation::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  translate: -100%;
+  background-color: var(--font-color);
+  transition: translate 0.5s ease-in-out;
+}
+  
+.btn_animation:hover::before {
+  translate: 0%;
+}
+
+.btn_animation:focus {
+  outline: none;
+  box-shadow: 2px 2px 0px var(--font-color);
+  transition: box-shadow 0.3s ease;
+}
+
+.header__theme-menu-button {
+  text-transform: uppercase;
 }
 
 .header__theme-menu-button:disabled {
@@ -90,6 +112,23 @@
 
 .header__theme-menu-button:focus {
   outline: none;
+}
+
+.header__theme-menu-button::after {
+  content: '';
+  display: block;
+  scale: 0;
+  block-size: 2px;
+  background-color: var(--font-color);
+  opacity: 60%;
+  transition: scale 300ms;
+}
+
+.header__theme-menu-button:focus-visible::after {
+  scale: 1;
+}
+
+.header__theme-menu-button:hover {
   opacity: 60%;
 }
 
@@ -124,45 +163,94 @@
   border-block: 2px solid var(--font-color);
 }
 
+.filter-grayscale {
+  filter: grayscale(55%);
+}
+
+.filter-saturate {
+  filter: saturate(158%);
+}
+
+.filter-sepia {
+  filter: sepia(42%);
+}
+
+.filter-max-sepia {
+  filter: sepia(90%);
+}
+
+.filter-inversion {
+  filter: invert(75%);
+}
+
+.filter-blur {
+  filter: blur(15px);
+}
+
+.filter-multi {
+  filter: saturate(301%) hue-rotate(136deg) sepia(27%) blur(3px);
+}
+
 .card__image-watermark {
   position: absolute;
   inset-block-start: 25px;
   inset-inline-end: 25px;
   font-family: 'PressStart2P', fantasy;
+  font-size: 14px;
   text-shadow: 0 0 1px var(--bg-color);
   opacity: 50%;
+  mix-blend-mode: hard-light;
+}
+
+@supports((text-stroke: 1px var(--bg-color)) or (-webkit-text-stroke: 1px var(--bg-color))) {
+  .card__image-watermark {
+    text-shadow: none;
+    -webkit-text-stroke: 1px var(--bg-color);
+    text-stroke: 1px var(--bg-color);
+  }
+}
+
+@media (max-width: 767px) {
+  .card__image-watermark {
+    inset-block-start: 20px;
+    inset-inline-end: 11px;
+  }
 }
 
 .card__text {
   display: flex;
   flex-direction: column;
-  gap: 27px;
-  padding: 25px;
+  gap: 29px;
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .card__text {
+    gap: 28px;
+    padding: 20px 25px 25px 25px;
+  }
 }
 
 .card__like {
   display: flex;
   align-self: flex-end;
-  /* gap: 5px; */
+  gap: 6px;
   padding: 0 25px 25px 25px;
+  position: relative;
 }
 
 .card__like-button {
   border: 2px solid var(--font-color);
-  padding: 9px 34px;
-}
-
-.card__like-button:focus {
-  outline: none;
-}
-
-.card__like-button:focus-visible {
-  box-shadow: 2px 2px 0px 0px var(--font-color);
+  padding-block: 6px;
+  min-inline-size: 130px;
+  position: relative;
+  overflow: hidden;
 }
 
 .card__icon-button {
   min-height: 38px;
-  transition: 0.3s ease;
+  transition: border 0.3s ease;
+  padding: 0;
 }
 
 .card__icon-button:focus {
@@ -185,9 +273,168 @@
   gap: 8px;
   border: 2px solid var(--font-color);
   padding: 15px 20px;
+  position: relative;
+  overflow: hidden;
+  mix-blend-mode: difference;
+  color: var(--text-color);
+}
+
+.save__button:focus {
+  box-shadow: 2px 2px 0px var(--font-color);
+  transition: box-shadow 0.3s ease;
 }
 
 .floppy {
   position: relative;
   block-size: 21px;
+  mix-blend-mode: difference;
+  color: var(--text-color);
+}
+
+@media (max-width: 775px) {
+  .save__button {
+    padding: 14px 19px;
+    max-inline-size: 308px;
+    flex-direction: column;
+  }
+
+  .floppy {
+    block-size: 27px;
+  }
+}
+
+.dialog {
+  border: 2px solid var(--font-color);
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  padding: 30px 42px;
+  font-family: 'PressStart2P', fantasy;
+  font-weight: 400;
+  font-size: 14px;
+  max-inline-size: 353px;
+}
+
+.dialog[open] {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+@media (min-width: 1440px) {
+  .dialog {
+    padding-inline: 30px;
+  }
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.dialog__title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  text-transform: uppercase;
+}
+
+.dialog__floppy {
+  position: relative;
+  inline-size: 39px;
+  block-size: 39px;
+}
+
+.dialog__form {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  text-transform: uppercase;
+}
+
+.dialog__close-button {
+  border: 2px solid var(--font-color);
+  inline-size: 100%;
+  block-size: 38px;
+}
+
+.button__text {
+  mix-blend-mode: difference;
+  color: var(--text-color);
+}
+
+.sparks, .core, .main-body {
+  opacity: 0;
+}
+
+.core {
+  transition: opacity 0.3s 0.3s ease;
+}
+
+.main-body {
+  transition: opacity 0.3s ease;
+}
+
+.contour {
+  transition: fill 0.1s linear;
+}
+
+.like-icon:hover {
+  .core {
+    fill: var(--contour-color);
+    opacity: 1;
+    transition-delay: 0s;
+  }
+
+  .main-body {
+    fill: var(--contour-color);
+    opacity: 1;
+    transition-delay: 0.05s;
+  }
+}
+
+.like-icon:active {
+  .core {
+    fill: var(--heart-color);
+    opacity: 1;
+    transition-delay: 0s;
+  }
+
+  .main-body {
+    fill: var(--heart-color);
+    opacity: 1;
+    transition-delay: 0.05s;
+  }
+}
+
+.like-icon.is-liked {
+  .core {
+    fill: var(--heart-color);
+    opacity: 1;
+    transition-delay: 0s;
+  }
+
+  .main-body {
+    fill: var(--heart-color);
+    opacity: 1;
+    transition-delay: 0.02s;
+  }
+
+  .contour {
+    fill: var(--heart-color);
+    opacity: 1;
+    transition-delay: 0.06s;
+  }
+}
+
+.like-icon.is-liked {
+  .heart {
+    animation: heart 0.3s ease-in 0.1s 1 alternate;
+  }
+
+  .sparks {
+    animation: sparks 0.3s ease-in 0.3s 1 alternate;
+    opacity: 0;
+  }
 }

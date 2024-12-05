@@ -19,6 +19,8 @@ body.theme-light {
     to bottom,
     #e7e7e7 0.01%,
     #1a1a1a 100%);
+  --text-color: var(--bg-color);
+  --contour-color: #000;
 }
 
 body.theme-dark {
@@ -42,6 +44,8 @@ body.theme-dark {
     to bottom,
     #007f0c 0.01%,
     #004306 100%);
+  --text-color: var(--font-color);
+  --contour-color: #00cc14;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,20 +55,22 @@ body.theme-dark {
     --bg-color: #000;
     --font-color: #00CC14;
     --bg-gradient: repeating-linear-gradient(
-    to right,
-    #000,
-    #000 2px,
-    transparent 2px,
-    transparent 4px),
-  repeating-linear-gradient(
-    to bottom,
-    #000,
-    #000 2px,
-    transparent 2px,
-    transparent 4px),
-  linear-gradient(
-    to bottom,
-    #007f0c 0.01%,
-    #004306 100%);
+      to right,
+      #000,
+      #000 2px,
+      transparent 2px,
+      transparent 4px),
+    repeating-linear-gradient(
+      to bottom,
+      #000,
+      #000 2px,
+      transparent 2px,
+      transparent 4px),
+    linear-gradient(
+      to bottom,
+      #007f0c 0.01%,
+      #004306 100%);
+    --text-color: var(--font-color);
+    --contour-color: #00cc14;
   }
 }
