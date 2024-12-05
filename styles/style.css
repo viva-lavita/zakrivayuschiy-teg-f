@@ -74,25 +74,6 @@
   cursor: pointer;
 }
 
-.btn_animation::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-color: var(--font-color);
-  transition: translate 0.5s ease-in-out;
-  translate: -100%;
-}
-  
-.btn_animation:hover::before {
-  translate: 0%;
-}
-
-.btn_animation:focus {
-  box-shadow: 2px 2px 0px var(--font-color);
-  outline: none;
-  transition: box-shadow 0.3s ease;
-}
-
 .header__theme-menu-button {
   text-transform: uppercase;
 }
@@ -106,8 +87,6 @@
   content: '▶';
   position: absolute;
   animation: move 0.5s ease-in-out infinite alternate;
-  animation-name: move;
-  animation-duration:  0.5s;
 }
 
 .header__theme-menu-button:focus {
@@ -119,7 +98,7 @@
   display: block;
   opacity: 60%;
   background-color: var(--font-color);
-  transition: scale 300ms;
+  transition: scale 0.3s;
   scale: 0;
   block-size: 2px;
 }
@@ -160,6 +139,7 @@
 .card__image {
   border-block: 2px solid var(--font-color);
   object-fit: cover;
+  object-position: center;
   inline-size: 100%;
 }
 
@@ -231,6 +211,28 @@
   }
 }
 
+.btn_animation {
+  transition: box-shadow 0.3s ease;
+}
+
+.btn_animation::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--font-color);
+  transition: translate 0.5s ease-in-out;
+  translate: -100%;
+}
+  
+.btn_animation:hover::before {
+  translate: 0%;
+}
+
+.btn_animation:focus {
+  box-shadow: 2px 2px 0px var(--font-color);
+  outline: none;
+}
+
 .card__like {
   position: relative;
   display: flex;
@@ -248,7 +250,7 @@
 }
 
 .card__icon-button {
-  min-height: 38px;
+  min-block-size: 38px;
   padding: 0;
   transition: border 0.3s ease;
 }
@@ -275,13 +277,7 @@
   padding: 15px 20px;
   overflow: hidden;
   color: var(--text-color);
-  background-color: var(--bg-color);
-  mix-blend-mode: difference;
-}
-
-.save__button:focus {
-  box-shadow: 2px 2px 0px var(--font-color);
-  transition: box-shadow 0.3s ease;
+  background-color: var(--bg-color);                          
 }
 
 .floppy {
@@ -354,9 +350,15 @@ dialog::backdrop {
 }
 
 .dialog__close-button {
+  position: relative;
   border: 2px solid var(--font-color);
   inline-size: 100%;
   block-size: 38px;
+  overflow: hidden;
+}
+
+.dialog__close-text {
+  text-transform: uppercase;
 }
 
 .button__text {
@@ -364,31 +366,36 @@ dialog::backdrop {
   mix-blend-mode: difference;
 }
 
-.sparks, .core, .main-body {
+.sparks {
   opacity: 0;
 }
 
 .core {
-  transition: opacity 0.3s 0.3s ease;
+  fill: transparent;
+  transition: fill 0.3s 0.3s linear;
 }
 
 .main-body {
-  transition: opacity 0.3s ease;
+  fill: transparent;
+  transition: fill 0.3s linear;
 }
 
 .contour {
   transition: fill 0.1s linear;
 }
 
+.like-icon .heart {
+  transform-origin: center;
+}
+
 .like-icon:hover {
   .core {
-    opacity: 1;
     fill: var(--contour-color);
     transition-delay: 0s;
+    transition-duration: 0.3s;
   }
 
   .main-body {
-    opacity: 1;
     fill: var(--contour-color);
     transition-delay: 0.05s;
   }
@@ -396,13 +403,11 @@ dialog::backdrop {
 
 .like-icon:active {
   .core {
-    opacity: 1;
     fill: var(--heart-color);
     transition-delay: 0s;
   }
 
   .main-body {
-    opacity: 1;
     fill: var(--heart-color);
     transition-delay: 0.05s;
   }
@@ -410,19 +415,16 @@ dialog::backdrop {
 
 .like-icon.is-liked {
   .core {
-    opacity: 1;
     fill: var(--heart-color);
     transition-delay: 0s;
   }
 
   .main-body {
-    opacity: 1;
     fill: var(--heart-color);
-    transition-delay: 0.02s;
+    transition-delay: 0.05s;
   }
 
   .contour {
-    opacity: 1;
     fill: var(--heart-color);
     transition-delay: 0.06s;
   }
@@ -434,7 +436,6 @@ dialog::backdrop {
   }
 
   .sparks {
-    opacity: 0;
     animation: sparks 0.3s ease-in 0.3s 1 alternate;
   }
 }
